@@ -1,0 +1,47 @@
+set term postscript eps enhanced color
+set terminal postscript enhanced "Times" 45
+set output "encrypt.eps"
+
+set style line 1 linetype 1 linecolor rgb "#999999" lw 2
+set key left top
+set key box linestyle 1
+set key spacing 1.2
+
+set size 4
+
+set title "Rijndael (AES) Block Cipher Speed"
+
+#set format y "%-12.0f";
+#set format x "%-12.0f";
+
+set xlabel "Data [Byte]"
+set ylabel "Time [Microseconds]"
+
+set xrange [ : 256 ]
+
+
+set grid xtics ytics mytics
+
+set style line 1 linetype 1 linecolor rgb "#000000" lw 2
+set style line 2 linetype 2 linecolor rgb "#000000" lw 2
+set style line 3 linetype 3 linecolor rgb "#000000" lw 2
+set style line 4 linetype 4 linecolor rgb "#000000" lw 2
+set style line 5 linetype 5 linecolor rgb "#000000" lw 2
+set style line 6 linetype 6 linecolor rgb "#000000" lw 2
+
+plot \
+     "encrypt-cbc-128.data" title "AES-CBC (128 bit key, 128 bit blocksize)" with lines ls 1, \
+     "encrypt-cbc-192.data" title "AES-CBC (192 bit key, 128 bit blocksize)" with lines ls 5, \
+     "encrypt-cbc-256.data" title "AES-CBC (256 bit key, 128 bit blocksize)" with lines ls 6
+
+set style line 1 linetype 1 linecolor rgb "#3e6694" lw 6
+set style line 3 linetype 1 linecolor rgb "#c400cf" lw 6 
+set style line 4 linetype 1 linecolor rgb "#946c3e" lw 6 
+set style line 5 linetype 1 linecolor rgb "#ff2a26" lw 6 
+set style line 6 linetype 1 linecolor rgb "#4e9a06" lw 6 
+
+set output "encrypt-color.eps"
+
+replot
+
+!epstopdf --outfile=encrypt-color.pdf encrypt-color.eps
